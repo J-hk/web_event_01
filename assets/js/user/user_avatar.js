@@ -61,4 +61,31 @@
              }
          })
      })
+
+     // 5.设置头像默认值
+     //  渲染默认头像
+     getUserInfo()
+
+     function getUserInfo() {
+         $.ajax({
+             method: 'GET',
+             url: '/my/userinfo',
+             // headers 就是请求配置对象
+             // headers: {
+             //     Authorization: localStorage.getItem('token') || ''
+             // },
+             success: function(res) {
+                 // console.log(res);
+                 // 判断状态码
+                 if (res.status !== 0) {
+                     return layui.layer.msg(res.message);
+                 }
+                 // 渲染用户头像
+                 $image
+                     .cropper('destroy') // 销毁旧的裁剪区域
+                     .attr('src', res.data.user_pic) // 重新设置图片路径
+                     .cropper(options) // 重新初始化裁剪区域
+             },
+         })
+     }
  })
